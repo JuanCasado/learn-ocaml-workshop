@@ -16,8 +16,8 @@ open! Base
 
    Let's rewrite [simpler_sum] and [simpler_product] using List.fold *) 
 
-let simpler_sum xs = failwith "For you to implement"
-let simpler_product xs = failwith "For you to implement"
+let simpler_sum xs = List.fold xs ~init:0 ~f:( + )
+let simpler_product xs = List.fold xs ~init:1 ~f:Int.( * )
 
 (** ========== [List.map] ========== **)
 (* [List.map] has the following signature:
@@ -30,7 +30,7 @@ let simpler_product xs = failwith "For you to implement"
    Let's write a function that takes in an int list and transforms it into a
    float list. (Hint: you can cast an int to a float using [Float.of_int].) *)
                        
-let float_of_int xs = failwith "For you to implement"
+let float_of_int xs = List.map xs ~f: Float.of_int
 
 (** ========== [List.init] ========== **)
 (* [List.init] has the following signature:
@@ -43,7 +43,13 @@ let float_of_int xs = failwith "For you to implement"
 
    Let's rewrite the [range] function we wrote in problem 9 to use [init].  *)
 
-let range from to_ = failwith "For you to implement"
+let range from to_ = List.init (Int.abs(from - to_)) ~f:(fun index -> index+from)
+
+let rec printList xs = 
+   match xs with
+   | [] -> ()
+   | x::xs -> let () = Stdio.printf "%d" x in printList xs
+(*let () = printList (range 5 10)*)
 
 (** ========== [List.range] ========== **)
 (* Turns out this special case of [List.init] is useful enough that it has it's own 
@@ -76,7 +82,8 @@ let range from to_ = failwith "For you to implement"
    Let's use [iter] to print a list of ints. Remember that we can use
    [Stdio.printf] to print formatted strings. *)
 
-let print_int_list xs = failwith "For you to implement"
+let print_int_list xs = 
+   List.iter xs ~f: Stdio.printf
 
 (* There are many more useful [List] functions, which you can read about here:
    https://ocaml.janestreet.com/ocaml-core/latest/doc/base/Base/List/index.html
@@ -112,6 +119,7 @@ let print_int_list xs = failwith "For you to implement"
    lists are not equal in length. (You will learn about options and what [None]
    means in exercise 15.) *)
 
+
 let%test "Testing simpler_product..." = Int.( = ) 1 (simpler_product [])
 let%test "Testing simpler_product..." = Int.( = ) 55 (simpler_product [ 55 ])
 let%test "Testing simpler_product..." = Int.( = ) 25 (simpler_product [ 5; -5; 1; -1 ])
@@ -128,3 +136,4 @@ let%test "Testing range..." = [%compare.equal: int list] (range 1 4) [ 1; 2; 3 ]
 let%test "Testing range..." =
   [%compare.equal: int list] (range (-5) 3) [ -5; -4; -3; -2; -1; 0; 1; 2 ]
 ;;
+

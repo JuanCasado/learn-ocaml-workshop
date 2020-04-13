@@ -13,7 +13,18 @@ let () =
    including [from] but excluding [to_] in increasing order.
 
    {| val range : int -> int -> int list |} *)
-let range from to_ = failwith "For you to implement"
+let range from to_ = 
+   let rec range value stop list = 
+   if value <= stop then 
+      value::list
+   else 
+      range (value - 1) stop (value::list)
+   in range (to_ - 1) from []
+
+let rec printList list =
+   match list with
+   | [] -> ()
+   | hd :: tl -> let () = Stdio.printf "%d\n" hd in printList tl
 
 (* You might've noticed that the list type in the function definitions of the
    operator [( @ )] (and also [( :: )]) look a bit different from every other

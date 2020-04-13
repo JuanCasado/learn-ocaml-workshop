@@ -48,7 +48,8 @@ let () =
 (* Now, implement [modulo] using our version of divide with labeled
    arguments. Remember that you can look at the mli for the function
    signature. *)
-let modulo ~dividend ~divisor = failwith "For you to implement"
+let modulo ~dividend ~divisor = 
+   Base.(%) dividend divisor
 
 let%test "Testing modulo..." =
   Int.(=) 2 (modulo ~dividend:17 ~divisor:5)

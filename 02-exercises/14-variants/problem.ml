@@ -44,18 +44,27 @@ let card_value_to_string card_value =
 (* Write a function that computes the score of a card (aces should score 11
    and face cards should score 10). *)
 let card_value_to_score card_value =
-  failwith "For you to implement"
+  match card_value with
+  | Ace      -> 11
+  | King
+  | Queen
+  | Jack     -> 10
+  | Number i -> i
 
 (* Remember the list type? We can define a list as a variant type too! *)
 type int_list = 
   | Empty 
   | Not_empty of int * int_list
 
+let a_int_list : int_list = Not_empty (6, Not_empty (3, Empty))
+
 (* OCaml actually allows us to define a list type that can contain any type of
    value, not just integers, by using parametrized types. *)
 type 'a generic_list = 
   | Empty
   | Not_empty of 'a * 'a generic_list
+
+let a_generic_list : int generic_list = Not_empty (6, Not_empty (3, Empty))
 
 (* Recall that ['a] is called a type parameter, for which any other type may be
    supplied. For example, we can use the [generic_list] type to define an
