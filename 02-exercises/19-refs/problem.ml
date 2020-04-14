@@ -18,7 +18,25 @@ let () =
    let's iterate over the list and explicitly maintain refs of the minimum and
    maximum values seen so far instead. *)
 let min_and_max lst =
-  failwith "For you to implement"
+  match lst with
+  | [] -> 0,0
+  | x::xs -> 
+    let min = ref x in
+    let max = ref x in
+    let rec min_and_max lst =
+      match lst with
+      | [] -> ()
+      | x::xs ->
+        min := if !min > x then x else !min;
+        max := if !max < x then x else !max;
+        min_and_max xs in
+    let () = min_and_max xs in
+    !min, !max
+
+let () = 
+  let min, max = min_and_max [5;9;2;4;3] in
+  Stdio.printf "Min: %d, Max: %d" min max
+
 
 (* By the way, can you guess how a [ref] is implemented under the hood? 
 

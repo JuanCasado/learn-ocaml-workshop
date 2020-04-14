@@ -10,6 +10,7 @@ type color =
   | Red
   | Yellow
   | Green
+[@@deriving compare]
 
 (* An aside: Note that for the [stoplight] type definition is followed by
    [@@deriving compare]. This is a ppx (remember the [%compare.equal] ppx from
@@ -41,11 +42,20 @@ let an_example : stoplight =
    Inspect the type of [set_color]. *)
 let set_color stoplight color = stoplight.color <- color
 
+let test_change_color : unit = 
+  set_color an_example Green;
+  assert([%compare.equal: color] an_example.color Green);
+  Stdio.printf "Comparation performed succesfully"
+
 (* For this exercise, assume that stoplights always transition from [Green] to
    [Yellow], [Yellow] to [Red], and [Red] to [Green]. Since we know this is the
    only transition, we can just write a function to advance the color of the
    light without taking an input color. *)
-let advance_color stoplight = failwith "For you to implement"
+let advance_color stoplight = 
+  match stoplight.color with 
+  | Red -> stoplight.color <- Green
+  | Yellow -> stoplight.color <- Red
+  | Green ->stoplight.color <- Yellow
 
 module For_testing = struct
   let test_ex_red : stoplight = { location = ""; color = Red }
